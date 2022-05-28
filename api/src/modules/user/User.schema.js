@@ -27,4 +27,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema); //create the table in the database in the mongoose which will create the database
