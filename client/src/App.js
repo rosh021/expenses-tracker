@@ -1,13 +1,11 @@
-import { Button } from "react-bootstrap";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-
 import "./App.css";
+import { Layout } from "./components/layout/Layout";
+import { Register } from "./pages/register-login/Register";
 
 function App() {
   return (
     <div className="App">
-      <Button variant="danger" />
-      <AcUnitIcon />
+      <Register />
     </div>
   );
 }
