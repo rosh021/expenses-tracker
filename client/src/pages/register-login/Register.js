@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import { Layout } from "../../components/layout/Layout";
+import { postUser } from "../../helper/axiosHelper";
 
 const initialState = { name: "", email: "", password: "" };
 export const Register = () => {
   const [form, setForm] = useState(initialState);
+  const [response, setResponse] = useState({ status: "", message: "" });
 
   const handelOnChange = (e) => {
     const { name, value } = e.target;
@@ -15,16 +17,27 @@ export const Register = () => {
     });
   };
 
-  const handelOnSubmit = (e) => {
+  const handelOnSubmit = async (e) => {
     e.preventDefault();
+    const result = await postUser(form);
+    console.log(result);
+    setResponse(result);
     setForm(initialState);
-    console.log(form);
   };
 
   return (
     <Layout>
       <div className="center">
         <Form onSubmit={handelOnSubmit}>
+          <h3 className="text-center">Register New User</h3>
+          <hr />
+          {response.message && (
+            <Alert
+              variant={response.status === "success" ? "success" : "danger"}
+            >
+              {response.message}
+            </Alert>
+          )}
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -61,6 +74,8 @@ export const Register = () => {
           <Form.Group className="mb-3" controlId="formGroupButton">
             <Button type="submit">Register</Button>
           </Form.Group>
+
+          <div className="text-end"><p>Already have an Account ? <a href="/login">Login</a></p></div>
         </Form>
       </div>
     </Layout>
