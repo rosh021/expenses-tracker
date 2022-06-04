@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { Layout } from "../../components/layout/Layout";
 import { postUser } from "../../helper/axiosHelper";
 
-const initialState = { name: "", email: "", password: "" };
-export const Register = () => {
+const initialState = { email: "", password: "" };
+export const Login = () => {
   const [form, setForm] = useState(initialState);
   const [response, setResponse] = useState({ status: "", message: "" });
 
@@ -20,17 +20,14 @@ export const Register = () => {
 
   const handelOnSubmit = async (e) => {
     e.preventDefault();
-    const result = await postUser(form);
-    console.log(result);
-    setResponse(result);
-    setForm(initialState);
+    alert("haven't make it yet");
   };
 
   return (
     <Layout>
       <div className="center">
         <Form onSubmit={handelOnSubmit}>
-          <h3 className="text-center">Register New User</h3>
+          <h3 className="text-center">Welcome Back !!</h3>
           <hr />
           {response.message && (
             <Alert
@@ -39,17 +36,7 @@ export const Register = () => {
               {response.message}
             </Alert>
           )}
-          <Form.Group className="mb-3" controlId="formGroupEmail">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              value={form.name}
-              required
-              onChange={handelOnChange}
-            />
-          </Form.Group>
+
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -73,10 +60,14 @@ export const Register = () => {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formGroupButton">
-            <Button type="submit">Register</Button>
+            <Button type="submit">Login</Button>
           </Form.Group>
 
-          <div className="text-end"><p>Already have an Account ? <Link to="/">Login</Link></p></div>
+          <div className="text-end">
+            <p>
+              Don't have an Account Yet ? <Link to="/register">Register</Link>
+            </p>
+          </div>
         </Form>
       </div>
     </Layout>

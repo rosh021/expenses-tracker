@@ -5,6 +5,8 @@ const apiURL =
     ? "/api/v1/users"
     : "http://localhost:8000/api/v1/users";
 
+const apiURLLogin = "http://localhost:8000/api/v1/users/login";
+
 export const postUser = async (usrObj) => {
   try {
     const { data } = await axios.post(apiURL, usrObj);
@@ -16,3 +18,13 @@ export const postUser = async (usrObj) => {
     };
   }
 };
+
+
+export const loginUser = getUser =>{
+
+  try{
+
+  }catch(error){
+    
+  }
+}
