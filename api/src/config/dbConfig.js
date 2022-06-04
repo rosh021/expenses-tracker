@@ -7,7 +7,7 @@ const createConnection = () => {
     const connect = mongoose.connect(contStr);
     connect && console.log("connected to mongodb");
   } catch (error) {
-    console.log(erro);
+    console.log(error);
   }
 };
 

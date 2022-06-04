@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "../../components/layout/Layout";
 import { postUser } from "../../helper/axiosHelper";
 
@@ -8,6 +8,7 @@ const initialState = { name: "", email: "", password: "" };
 export const Register = () => {
   const [form, setForm] = useState(initialState);
   const [response, setResponse] = useState({ status: "", message: "" });
+  const navigation = useNavigate();
 
   const handelOnChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +25,9 @@ export const Register = () => {
     console.log(result);
     setResponse(result);
     setForm(initialState);
+    if (response.status === "success") {
+      navigation("/");
+    }
   };
 
   return (
@@ -76,7 +80,11 @@ export const Register = () => {
             <Button type="submit">Register</Button>
           </Form.Group>
 
-          <div className="text-end"><p>Already have an Account ? <Link to="/">Login</Link></p></div>
+          <div className="text-end">
+            <p>
+              Already have an Account ? <Link to="/">Login</Link>
+            </p>
+          </div>
         </Form>
       </div>
     </Layout>
