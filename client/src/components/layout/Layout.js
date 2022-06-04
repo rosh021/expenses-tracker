@@ -1,22 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Layout = ({ children }) => {
+  const navigation = useNavigate();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const infoUser = JSON.parse(window.sessionStorage.getItem("user"));
+    setUser(infoUser);
+  }, []);
+
+  const handelOnLogOut = () => {
+    window.sessionStorage.removeItem("user");
+  };
   return (
     <div>
       <Navbar bg="primary" expand="lg">
         <Container>
           <Navbar.Brand href="#home">ET</Navbar.Brand>
+          {user?.name}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Link className="nav-link" to="/register">
-                Register
-              </Link>
-              <Link className="nav-link" to="/">
-                Login
-              </Link>
+              {user?._id ? (
+                <Link to="/" className="nav-link" onClick={handelOnLogOut}>
+                  Logout
+                </Link>
+              ) : (
+                <>
+                  <Link className="nav-link" to="/register">
+                    Register
+                  </Link>
+                  <Link className="nav-link" to="/">
+                    Login
+                  </Link>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
