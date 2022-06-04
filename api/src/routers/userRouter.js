@@ -31,6 +31,7 @@ router.post("/login", async (req, res) => {
 
     const user = await findUser({ email, password });
     if (user?._id) {
+      user.password = undefined;
       return res.json({
         status: "success",
         message: "User logged in Successfully",
@@ -39,9 +40,9 @@ router.post("/login", async (req, res) => {
     }
 
     return res.json({
-      status:"error",
-      message:"Invalid Credentials"
-    })
+      status: "error",
+      message: "Invalid Credentials",
+    });
   } catch (error) {
     res.json({
       status: "error",
