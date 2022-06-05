@@ -12,6 +12,7 @@ export const Dashboard = () => {
   const [user, setUser] = useState();
   const [form, setForm] = useState({ title: "", amount: "" });
   const [res, setRest] = useState({ status: "", message: "" });
+  const [recfetchFlage, setRecFetchFlage] = useState(0);
 
   useEffect(() => {
     const storedUser = JSON.parse(window.sessionStorage.getItem("user"));
@@ -19,8 +20,6 @@ export const Dashboard = () => {
     setUser(storedUser);
     !storedUser?._id && navigation("/");
   }, []);
-
-  
 
   const handelOnChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +43,9 @@ export const Dashboard = () => {
 
     setRest(result);
     setForm(info);
+    if (result.status === "success") {
+      setRecFetchFlage(recfetchFlage + 1);
+    }
   };
 
   return (
@@ -88,7 +90,7 @@ export const Dashboard = () => {
       <hr />
 
       <Row>
-        <CustomTable form={form} />
+        <CustomTable key={recfetchFlage} />
       </Row>
     </Layout>
   );

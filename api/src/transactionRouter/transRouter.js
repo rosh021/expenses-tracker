@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createTransaction,
+  deleteTransactions,
   findTransactions,
 } from "../modules/transaction/Transaction.model.js";
 const router = express.Router();
@@ -36,6 +37,29 @@ router.post("/", async (req, res) => {
       : res.json({
           status: "error",
           message: "unable to create Transaction",
+        });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.delete("/", async (req, res) => {
+  try {
+    const ids = req.body;
+    const { authorization } = req.headers;
+    const result = await deleteTransactions({ ids, authorization });
+
+    result?.deletedCount
+      ? res.json({
+          status: "success",
+          message: "Selected transactions has been deleted successfully",
+        })
+      : res.json({
+          status: "error",
+          message: "unable to delete Transaction",
         });
   } catch (error) {
     res.json({
