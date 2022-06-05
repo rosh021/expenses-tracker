@@ -3,14 +3,14 @@ import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { CustomTable } from "../../components/customTable/CustomTable";
 import { Layout } from "../../components/layout/Layout";
-import { postTransaction } from "../../helper/axiosHelper";
+import { getTransaction, postTransaction } from "../../helper/axiosHelper";
 
-const initialState = { title: "", amount: "" };
+// const initialState = { type: "", ;
 export const Dashboard = () => {
   const navigation = useNavigate();
 
   const [user, setUser] = useState();
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState({ title: "", amount: "" });
   const [res, setRest] = useState({ status: "", message: "" });
 
   useEffect(() => {
@@ -19,6 +19,8 @@ export const Dashboard = () => {
     setUser(storedUser);
     !storedUser?._id && navigation("/");
   }, []);
+
+  
 
   const handelOnChange = (e) => {
     const { name, value } = e.target;
@@ -31,11 +33,19 @@ export const Dashboard = () => {
 
   const handelOnSubmit = async (e) => {
     e.preventDefault();
-    const result = await postTransaction(form);
-    console.log(result);
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+    if (!_id) {
+      return alert("Please login frist");
+    }
+
+    const info = { ...form, userId: _id };
+
+    const result = await postTransaction(info);
+
     setRest(result);
-    setForm(initialState);
+    setForm(info);
   };
+
   return (
     <Layout className="mt-5">
       <Form className="mt-5" onSubmit={handelOnSubmit}>
@@ -78,7 +88,7 @@ export const Dashboard = () => {
       <hr />
 
       <Row>
-        <CustomTable />
+        <CustomTable form={form} />
       </Row>
     </Layout>
   );
