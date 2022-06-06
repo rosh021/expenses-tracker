@@ -1,9 +1,12 @@
 import axios from "axios";
 
-const rootUrl = "https://et-fullstack.herokuapp.com/api/v1";
+const rootUrl =
+  process.env.NODE_ENV === "production"
+    ? "/api/v1"
+    : "http://localhost:8000/api/v1";
 
-const userEp = rootUrl + "api/v1/users";
-const transactionEp = rootUrl + "api/v1/transaction";
+const userEp = rootUrl + "/users";
+const transactionEp = rootUrl + "/transaction";
 
 export const postUser = async (usrObj) => {
   try {
