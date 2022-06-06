@@ -2,8 +2,8 @@ import axios from "axios";
 
 const rootUrl = "https://et-fullstack.herokuapp.com/api/v1";
 
-const userEp = rootUrl + "/users";
-const transactionEp = rootUrl + "/transaction";
+const userEp = rootUrl + "api/v1/users";
+const transactionEp = rootUrl + "api/v1/transaction";
 
 export const postUser = async (usrObj) => {
   try {
