@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(cors());
-import createConnection from "./src/config/dbConfig.js";
+import createConnection from "./src/config/dbconfig.js";
 createConnection();
 
 app.use("/api/v1/users", userRouter);
@@ -18,10 +18,10 @@ app.use("/api/v1/transaction", transRouter);
 import path from "path";
 const __dirname = path.resolve();
 
-app.use(express.static(path.resolve(__dirname, "/client/build")));
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "/client/build", "index.html"));
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
 app.listen(PORT, (error) => {
