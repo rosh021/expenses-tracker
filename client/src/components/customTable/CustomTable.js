@@ -1,27 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Button, FormCheck, Table } from "react-bootstrap";
-import { getTransaction } from "../../helper/axiosHelper";
+import { Alert, Button, FormCheck, Table } from "react-bootstrap";
+import { deleteTransaction, getTransaction } from "../../helper/axiosHelper";
 
 export const CustomTable = () => {
   const [data, setData] = useState([]);
   const [ids, setIds] = useState([]);
-  // const [res, setRes] = useState({ status: "", message: "" });
+  const [res, setRes] = useState({ status: "", message: "" });
 
   useEffect(() => {
-    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
-
-    const fetchData = async () => {
-      const transInfo = await getTransaction(_id);
-      if (transInfo.status === "success") {
-        setData(transInfo.result);
-      }
-    };
-    fetchData();
+    fetchAllTrans();
   }, []);
 
-  const incomeTotal = data.reduce((acc, item) => {
-    return data.type === "income" ? acc + acc.amount : acc - item.amount;
-  }, 0);
+  const fetchAllTrans = async () => {
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+
+    const tansInfo = await getTransaction(_id);
+    if (tansInfo.status === "success") {
+      setData(tansInfo.result);
+    }
+  };
 
   const handelOnCheck = (e) => {
     const { checked, value } = e.target;
@@ -33,11 +30,25 @@ export const CustomTable = () => {
     }
   };
 
-  const handelOnClick = async () => {};
+  const handelOnDelete = async () => {
+    if (
+      window.confirm(
+        `Are You Sure to delete ${ids.length} selected Transaction`
+      )
+    );
+
+    const result = await deleteTransaction(ids);
+
+    alert(result.status);
+  };
+
+  const incomeTotal = data.reduce((acc, item) => {
+    return item.type === "income" ? acc + item.amount : acc - item.amount;
+  }, 0);
 
   return (
     <div className="mt-5">
-      <h1 className="text-center"> Transaction Found !!</h1>
+      <h1 className="text-center"> {data.length} Transaction Found !!</h1>
       <Table className="mt-3" hover>
         <thead>
           <tr>
@@ -87,8 +98,13 @@ export const CustomTable = () => {
           </td>
         </tbody>
       </Table>
+      {res.message && (
+        <Alert variant={res.status === "success" ? "success" : "danger"}>
+          {res.message}
+        </Alert>
+      )}
       {ids.length > 0 && (
-        <Button variant="danger" onClick={handelOnClick}>
+        <Button variant="danger" onClick={handelOnDelete}>
           Delete {ids.length} Selected Transaction
         </Button>
       )}

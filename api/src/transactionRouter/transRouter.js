@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 
     res.json({
       status: "success",
-      message: "Transcation List",
+      message: "Transacation List",
       result,
     });
   } catch (error) {
@@ -49,7 +49,11 @@ router.post("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const ids = req.body;
+    console.log(ids);
+
     const { authorization } = req.headers;
+    console.log(authorization);
+
     const result = await deleteTransactions({ ids, authorization });
 
     result?.deletedCount

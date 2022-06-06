@@ -61,3 +61,24 @@ export const getTransaction = async (transObjs) => {
     };
   }
 };
+
+export const deleteTransaction = async (ids) => {
+  console.log(ids);
+  try {
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+
+    const { data } = await axios.delete(transactionEp, {
+      headers: {
+        Authorization: _id,
+      },
+      data: ids,
+    });
+
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
