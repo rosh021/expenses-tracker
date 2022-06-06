@@ -1,9 +1,6 @@
 import axios from "axios";
 
-const rootUrl =
-  process.env.NODE_ENV === "production"
-    ? "/api/v1"
-    : "https://et-fullstack.herokuapp.com/api/v1";
+const rootUrl = "https://et-fullstack.herokuapp.com/api/v1";
 
 const userEp = rootUrl + "/users";
 const transactionEp = rootUrl + "/transaction";
