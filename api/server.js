@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 app.use(cors());
-import createConnection  from "./src/config/dbconfig.js";
+import createConnection from "./src/config/dbConfig.js";
 createConnection();
 
 app.use("/api/v1/users", userRouter);
