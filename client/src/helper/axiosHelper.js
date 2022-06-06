@@ -2,11 +2,11 @@ import axios from "axios";
 
 const rootUrl =
   process.env.NODE_ENV === "production"
-    ? "/api/v1"
-    : "http://localhost:8000/api/v1";
+    ? "/api/v1/"
+    : "http://localhost:8000/api/v1/";
 
-const userEp = rootUrl + "/users";
-const transactionEp = rootUrl + "/transaction";
+const userEp = rootUrl + "users";
+const transactionEp = rootUrl + "transaction";
 
 export const postUser = async (usrObj) => {
   try {
