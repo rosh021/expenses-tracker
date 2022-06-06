@@ -18,7 +18,7 @@ export const Layout = ({ children }) => {
     <div>
       <Navbar bg="primary" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">ET</Navbar.Brand>
+          <Navbar.Brand>ET</Navbar.Brand>
           {user?.name}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

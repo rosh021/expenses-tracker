@@ -25,21 +25,24 @@ export const CustomTable = () => {
     if (checked) {
       setIds([...ids, value]);
     } else {
-      const filterIds = ids.filter((ids) => ids !== value);
+      const filterIds = ids.filter((id) => id !== value);
       setIds(filterIds);
     }
   };
 
   const handelOnDelete = async () => {
     if (
-      window.confirm(
+      !window.confirm(
         `Are You Sure to delete ${ids.length} selected Transaction`
       )
     );
 
     const result = await deleteTransaction(ids);
 
-    alert(result.status);
+    if (result.status === "success") {
+      fetchAllTrans();
+      setRes(result);
+    }
   };
 
   const incomeTotal = data.reduce((acc, item) => {
