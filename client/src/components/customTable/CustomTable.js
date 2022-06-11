@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, FormCheck, Table } from "react-bootstrap";
 import { deleteTransaction, getTransaction } from "../../helper/axiosHelper";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteTransactionAction,
+  fetchTransactionsAction,
+} from "../../pages/dashboard/dashboard.action.js";
 export const CustomTable = () => {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  // const [data, setData] = useState([]);
+  const { transaction } = useSelector((state) => state.dashboard);
   const [ids, setIds] = useState([]);
   const [res, setRes] = useState({ status: "", message: "" });
 
   useEffect(() => {
-    fetchAllTrans();
+    dispatch(fetchTransactionsAction());
   }, []);
 
-  const fetchAllTrans = async () => {
-    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+  // const fetchAllTrans = async () => {
+  //   const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
 
-    const tansInfo = await getTransaction(_id);
-    if (tansInfo.status === "success") {
-      setData(tansInfo.result);
-    }
-  };
+  //   const tansInfo = await getTransaction(_id);
+  //   if (tansInfo.status === "success") {
+  //     setData(tansInfo.result);
+  //   }
+  // };
 
   const handelOnCheck = (e) => {
     const { checked, value } = e.target;
@@ -37,21 +43,20 @@ export const CustomTable = () => {
       )
     );
 
-    const result = await deleteTransaction(ids);
-
-    if (result.status === "success") {
-      fetchAllTrans();
-      setRes(result);
-    }
+    dispatch(deleteTransactionAction(ids));
+    setIds([]);
   };
 
-  const incomeTotal = data.reduce((acc, item) => {
+  const incomeTotal = transaction.reduce((acc, item) => {
     return item.type === "income" ? acc + item.amount : acc - item.amount;
   }, 0);
 
   return (
     <div className="mt-5">
-      <h1 className="text-center"> {data.length} Transaction Found !!</h1>
+      <h1 className="text-center">
+        {" "}
+        {transaction.length} Transaction Found !!
+      </h1>
       <Table className="mt-3" hover>
         <thead>
           <tr>
@@ -64,7 +69,7 @@ export const CustomTable = () => {
         </thead>
 
         <tbody>
-          {data.map((trans, i) => (
+          {transaction.map((trans, i) => (
             <tr key={trans._id}>
               <td>
                 <FormCheck onClick={handelOnCheck} value={trans._id} />

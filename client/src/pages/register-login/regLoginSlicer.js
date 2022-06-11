@@ -14,7 +14,7 @@ const regLoginSlice = createSlice({
     },
 
     setResponse: (state, action) => {
-      state.response = action.response;
+      state.response = action.payloads;
       state.isLoading = true;
     },
   },

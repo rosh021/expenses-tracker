@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "../../components/layout/Layout";
@@ -13,6 +13,7 @@ export const Register = () => {
   // const [response, setResponse] = useState({ status: "", message: "" });
 
   const { response, isLoading } = useSelector((state) => state.regLogin);
+
   const navigation = useNavigate();
 
   const handelOnChange = (e) => {
@@ -39,7 +40,7 @@ export const Register = () => {
       <div className="center">
         <Form onSubmit={handelOnSubmit}>
           <h3 className="text-center">Register New User</h3>
-          <hr />
+
           {response.message && (
             <Alert
               variant={response.status === "success" ? "success" : "danger"}
@@ -47,6 +48,8 @@ export const Register = () => {
               {response.message}
             </Alert>
           )}
+
+          {isLoading && <Spinner variant="primary" animation="border" />}
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control

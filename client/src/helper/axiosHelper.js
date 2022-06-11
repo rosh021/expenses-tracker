@@ -46,11 +46,12 @@ export const postTransaction = async (transObj) => {
   }
 };
 
-export const getTransaction = async (transObjs) => {
+export const getTransaction = async () => {
   try {
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
     const { data } = await axios.get(transactionEp, {
       headers: {
-        Authorization: transObjs,
+        Authorization: _id,
       },
     });
     return data;

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CustomTable } from "../../components/customTable/CustomTable";
 import { Layout } from "../../components/layout/Layout";
 import { getTransaction, postTransaction } from "../../helper/axiosHelper";
+import { postTransactionAction } from "./dashboard.action";
 
 // const initialState = { type: "", ;
 export const Dashboard = () => {
   const navigation = useNavigate();
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState();
   const [form, setForm] = useState({ title: "", amount: "" });
-  const [res, setRest] = useState({ status: "", message: "" });
-  const [recfetchFlage, setRecFetchFlage] = useState(0);
+  // const [res, setRest] = useState({ status: "", message: "" });
+  // const [recfetchFlage, setRecFetchFlage] = useState(0);
+  const { response } = useSelector((state) => state.dashboard);
 
   useEffect(() => {
     const storedUser = JSON.parse(window.sessionStorage.getItem("user"));
@@ -32,28 +36,32 @@ export const Dashboard = () => {
 
   const handelOnSubmit = async (e) => {
     e.preventDefault();
-    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
-    if (!_id) {
-      return alert("Please login frist");
-    }
+    dispatch(postTransactionAction(form));
 
-    const info = { ...form, userId: _id };
+    // const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+    // if (!_id) {
+    //   return alert("Please login first");
+    // }
 
-    const result = await postTransaction(info);
+    // const info = { ...form, userId: _id };
 
-    setRest(result);
-    setForm(info);
-    if (result.status === "success") {
-      setRecFetchFlage(recfetchFlage + 1);
-    }
+    // const result = await postTransaction(info);
+
+    // setRest(result);
+    // setForm(info);
+    // if (result.status === "success") {
+    //   setRecFetchFlage(recfetchFlage + 1);
+    // }
   };
 
   return (
     <Layout className="mt-5">
       <Form className="mt-5" onSubmit={handelOnSubmit}>
-        {res.message && (
-          <Alert variant={res?.status === "success" ? "success" : "danger"}>
-            {res?.message}
+        {response.message && (
+          <Alert
+            variant={response?.status === "success" ? "success" : "danger"}
+          >
+            {response?.message}
           </Alert>
         )}
         <Row className="mt-2">
@@ -90,7 +98,7 @@ export const Dashboard = () => {
       <hr />
 
       <Row>
-        <CustomTable key={recfetchFlage} />
+        <CustomTable />
       </Row>
     </Layout>
   );
