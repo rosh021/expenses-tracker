@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout } from "../../components/layout/Layout";
 import { postUser } from "../../helper/axiosHelper";
 import { registerAction } from "./regLogin.action";
 
-
 const initialState = { name: "", email: "", password: "" };
 export const Register = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [form, setForm] = useState(initialState);
-  const [response, setResponse] = useState({ status: "", message: "" });
+  // const [response, setResponse] = useState({ status: "", message: "" });
+
+  const { response, isLoading } = useSelector((state) => state.regLogin);
   const navigation = useNavigate();
 
   const handelOnChange = (e) => {
@@ -24,13 +24,14 @@ export const Register = () => {
     });
   };
 
-  const handelOnSubmit = async (e) => {
+  const handelOnSubmit = (e) => {
     e.preventDefault();
-    registerAction(form);
 
-    if (response.status === "success") {
-      navigation("/");
-    }
+    dispatch(registerAction(form));
+
+    // if (response.status === "success") {
+    //   navigation("/");
+    // }
   };
 
   return (
