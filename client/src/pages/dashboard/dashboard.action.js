@@ -4,6 +4,7 @@ import {
   postTransaction,
 } from "../../helper/axiosHelper";
 import { setIsLoading, setResponse, setTransaction } from "./dashboardSlicer";
+import { toast } from "react-toastify";
 
 export const fetchTransactionsAction = () => async (dispatch) => {
   dispatch(setIsLoading());
@@ -27,7 +28,7 @@ export const postTransactionAction = (form) => async (dispatch) => {
 
   const result = await postTransaction(info);
 
-  dispatch(setResponse(result));
+  toast[result.status](result.message);
 
   if (result.status === "success") {
     dispatch(fetchTransactionsAction());
@@ -38,6 +39,5 @@ export const deleteTransactionAction = (ids) => async (dispatch) => {
   dispatch(setIsLoading());
   const result = await deleteTransaction(ids);
   result.status === "success" && dispatch(fetchTransactionsAction());
-
-  setResponse(result);
+  toast[result.status](result.message);
 };
